@@ -18,56 +18,64 @@ class _HomeState extends State<Home> {
   String outputName = 'output.svg';
   @override
   Widget build(BuildContext context) {
+    final size=MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text('SVG Transform'))),
+      appBar: AppBar(title: const Center(child: Text('SVG Replace style element'))),
       body: Center(
-        child: Column(
-          children: [
-            ElevatedButton(
-                onPressed: () async {
-                  FilePickerResult? result = await FilePicker.platform
-                      .pickFiles(
-                          type: FileType.custom, allowedExtensions: ['svg']);
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            
+            children: [
+              ElevatedButton(
+                  onPressed: () async {
+                    FilePickerResult? result = await FilePicker.platform
+                        .pickFiles(
+                            type: FileType.custom, allowedExtensions: ['svg']);
 
-                  if (result != null) {
-                    File file = File(result.files.single.path!);
-                    svg = transformSVG(file.readAsStringSync());
-                    outputName = result.files.single.name;
-                    outputName = outputName.replaceAll('.svg', '_copia.svg');
-                    setState(() {});
-                  } else {
-                    // User canceled the picker
-                  }
-                },
-                child: const Text('Cargar archivo')),
-            (svg != '')
-                ? Column(
-                    children: [
-                      SvgPicture.string(svg),
-                      ElevatedButton(
-                          onPressed: () async {
-                            String? outputFile =
-                                await FilePicker.platform.saveFile(
-                              dialogTitle: 'Please select an output file:',
-                              fileName: outputName,
-                            );
+                    if (result != null) {
+                      File file = File(result.files.single.path!);
+                      svg = transformSVG(file.readAsStringSync());
+                      outputName = result.files.single.name;
+                      outputName = outputName.replaceAll('.svg', '_copia.svg');
+                      setState(() {});
+                    } else {
+                      // User canceled the picker
+                    }
+                  },
+                  child: const Text('Cargar archivo')),
+              (svg != '')
+                  ? Column(
+                      children: [
+                        SizedBox(height: 20),
+                        Container(
+                          width: size.width-100,
+                          height: size.height-220,
+                          child: SvgPicture.string(svg, fit: BoxFit.contain)),
+                        SizedBox(height: 20),
+                        
+                        ElevatedButton(
+                            onPressed: () async {
+                              String? outputFile =
+                                  await FilePicker.platform.saveFile(
+                                dialogTitle: 'Please select an output file:',
+                                fileName: outputName,
+                              );
 
-                            if (outputFile == null) {
-                              // User canceled the picker
-                            } else {
-                              File newFile = File(outputFile);
-                              newFile.writeAsStringSync(svg);
-                            }
-                          },
-                          child: const Text('Guardar archivo')),
-                    ],
-                  )
-                : Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.red,
-                  )
-          ],
+                              if (outputFile == null) {
+                                // User canceled the picker
+                              } else {
+                                File newFile = File(outputFile);
+                                newFile.writeAsStringSync(svg);
+                              }
+                            },
+                            child: const Text('Guardar archivo')),
+                      ],
+                    )
+                  : Container(
+                    )
+            ],
+          ),
         ),
       ),
     );
