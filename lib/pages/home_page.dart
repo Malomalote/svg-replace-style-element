@@ -16,16 +16,17 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String svg = '';
   String outputName = 'output.svg';
+
   @override
   Widget build(BuildContext context) {
-    final size=MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text('SVG Replace style element'))),
+      appBar:
+          AppBar(title: const Center(child: Text('SVG Replace style element'))),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
-            
             children: [
               ElevatedButton(
                   onPressed: () async {
@@ -35,7 +36,7 @@ class _HomeState extends State<Home> {
 
                     if (result != null) {
                       File file = File(result.files.single.path!);
-                      svg = transformSVG(file.readAsStringSync());
+                      svg = svgRemoveStyleLabel(file.readAsStringSync());
                       outputName = result.files.single.name;
                       outputName = outputName.replaceAll('.svg', '_copia.svg');
                       setState(() {});
@@ -43,17 +44,17 @@ class _HomeState extends State<Home> {
                       // User canceled the picker
                     }
                   },
-                  child: const Text('Cargar archivo')),
+                  child: const Text('Load file')),
               (svg != '')
                   ? Column(
                       children: [
-                        SizedBox(height: 20),
-                        Container(
-                          width: size.width-100,
-                          height: size.height-220,
-                          child: SvgPicture.string(svg, fit: BoxFit.contain)),
-                        SizedBox(height: 20),
-                        
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: size.width - 100,
+                          height: size.height - 220,
+                          child: SvgPicture.string(svg, fit: BoxFit.contain),
+                        ),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                             onPressed: () async {
                               String? outputFile =
@@ -69,11 +70,10 @@ class _HomeState extends State<Home> {
                                 newFile.writeAsStringSync(svg);
                               }
                             },
-                            child: const Text('Guardar archivo')),
+                            child: const Text('Save file')),
                       ],
                     )
-                  : Container(
-                    )
+                  : Container()
             ],
           ),
         ),

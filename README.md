@@ -7,3 +7,5 @@ Some .svg files can't be use with flutter packages like *flutter_svg* because in
 This is a beta project. 
 
 Bugs and features are welcome.
+
+Only works in desktop. 

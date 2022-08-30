@@ -1,4 +1,4 @@
-String transformSVG(String input) {
+String svgRemoveStyleLabel(String input) {
   String transformsvg = input;
   if (input.contains('<style')) {
     int posInit = input.indexOf('<style');
