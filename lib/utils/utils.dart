@@ -10,7 +10,7 @@ String svgRemoveStyleLabel(String input) {
     List<String> stylesRaw = styleString.split('.');
     List<Pair<String, String>> styles = [];
     for (var l in stylesRaw) {
-      String first = l.split('{').first;
+      String first = l.split('{').first.trim();
       String second = l.split('{').last.split('}').first;
       styles.add(Pair(first, second));
     }
